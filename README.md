@@ -1,11 +1,11 @@
 BeanChallenge
 =============
 
-The Bean Challenge
+Documentation and hosting for The Bean Challenge from Punch Through Design!
 
 Current Status
 ----------------
-The Bean's internal temp is now displayed on the i2c OLED board
+The Bean's internal temp is now displayed on the i2c OLED board. Its reallllllllly cold outside!
 ![alt tag](https://raw.githubusercontent.com/Corinrypkema/BeanChallenge/master/images/IMG_1591.JPG)
 
 Ideas
