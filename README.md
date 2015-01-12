@@ -1,12 +1,12 @@
 BeanChallenge
 =============
 
-The Bean Challenge
+Documentation and hosting for The Bean Challenge from Punch Through Design!
 
 Current Status
 ----------------
-Hello World is displayed on the i2c OLED board connected to the bean
-![alt tag](https://raw.githubusercontent.com/Corinrypkema/BeanChallenge/master/images/IMG_1578.JPG)
+The Bean's internal temp is now displayed on the i2c OLED board. Its reallllllllly cold outside!
+![alt tag](https://raw.githubusercontent.com/Corinrypkema/BeanChallenge/master/images/IMG_1591.JPG)
 
 Ideas
 -----
@@ -20,14 +20,19 @@ Ideas
 
 Roadmap
 --------
-*~~Connect bean to iPad~~
-*~~Play with the various sensors in the package~~
-*~~Come up with ideas~~
-*~~Select idea~~
-*~~Hello World on i2c OLED~~
-* Display temperature on the OLED
+* ~~Connect bean to iPad~~
+* ~~Play with the various sensors in the package~~
+* ~~Come up with ideas~~
+* ~~Select idea~~
+* ~~Hello World on i2c OLED~~
+* ~~Display temperature on the OLED~~
 * use external thermistor on analog in
 * log data to SD card
 * SD card viewer application
   *choose backend
 * design and fab SD card interface for the bean
+
+Old Stati
+-----------
+*Hello World is displayed on the i2c OLED board connected to the bean
+![alt tag](https://raw.githubusercontent.com/Corinrypkema/BeanChallenge/master/images/IMG_1578.JPG)
