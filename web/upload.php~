@@ -1,3 +1,5 @@
+<?php 
+
 if ( isset($_POST["submit"]) ) {
 
    if ( isset($_FILES["file"])) {
@@ -29,3 +31,4 @@ if ( isset($_POST["submit"]) ) {
              echo "No file selected <br />";
      }
 }
+?>

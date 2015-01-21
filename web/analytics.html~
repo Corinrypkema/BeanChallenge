@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+  
+
+    <title>Dashboard Template for Bootstrap</title>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+ <script src="js/jquery.csv.js"></script>    
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="dashboard.css" rel="stylesheet">
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Dashboard</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <!--
+	    <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Settings</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Help</a></li>
+		-->
+          </ul>
+          <form class="navbar-form navbar-right">
+            <!--<input type="text" class="form-control" placeholder="Search...">-->
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li><a href=".html">Overview </a></li>
+            <li class="active" ><a href="Analytics.html">Analytics <span class="sr-only">(current)</span></a></li>
+	    <li><a href="#">Current Settings</a></li>
+	    <li><a href="#">Import</a></li>
+	     <li><a href="#">Help</a></li>
+          </ul>
+          <!--<ul class="nav nav-sidebar">
+            <li><a href="">Nav item</a></li>
+            <li><a href="">Nav item again</a></li>
+            <li><a href="">One more nav</a></li>
+            <li><a href="">Another nav item</a></li>
+            <li><a href="">More navigation</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="">Nav item again</a></li>
+            <li><a href="">One more nav</a></li>
+            <li><a href="">Another nav item</a></li>
+          </ul> -->
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        
+	<h2 class="sub-header">Analytics</h2>
+		  <div id="chart" style="width:800px; height:500px;">
+   </div>
+   <select id="range">
+   </select>
+   <select id="domain">
+   </select>
+          </div>
+
+          
+      </div>
+    </div>
+   <script src="https://www.google.com/jsapi"></script>
+   <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+   <script src="jquery.csv.js"></script>
+   <script>
+      // load the visualization library from Google and set a listener
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+         // grab the CSV
+         $.get("kzn1993.csv", function(csvString) {
+            // transform the CSV string into a 2-dimensional array
+            var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
+
+            // use arrayData to load the select elements with the appropriate options
+            for (var i = 0; i < arrayData[0].length; i++) {
+               // this adds the given option to both select elements
+               $("select").append("<option value='" + i + "'>" + arrayData[0][i] + "</option");
+            }
+            // set the default selection
+            $("#domain option[value='0']").attr("selected","selected");
+            $("#range option[value='1']").attr("selected","selected");
+
+            // this new DataTable object holds all the data
+            var data = new google.visualization.arrayToDataTable(arrayData);
+
+            // this view can select a subset of the data at a time
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0,1]);
+
+            var options = {
+               title: "KwaZulu-Natal Household Survey (1993)",
+               hAxis: {title: data.getColumnLabel(0), minValue: data.getColumnRange(0).min, maxValue: data.getColumnRange(0).max},
+               vAxis: {title: data.getColumnLabel(1), minValue: data.getColumnRange(1).min, maxValue: data.getColumnRange(1).max},
+               legend: 'none'
+            };
+
+            var chart = new google.visualization.ScatterChart(document.getElementById('chart'));
+            chart.draw(view, options);
+
+            // set listener for the update button
+            $("select").change(function(){
+               // determine selected domain and range
+               var domain = +$("#domain option:selected").val();
+               var range = +$("#range option:selected").val();
+
+               // update the view
+               view.setColumns([domain,range]);
+
+               // update the options
+               options.hAxis.title = data.getColumnLabel(domain);
+               options.hAxis.minValue = data.getColumnRange(domain).min;
+               options.hAxis.maxValue = data.getColumnRange(domain).max;
+               options.vAxis.title = data.getColumnLabel(range);
+               options.vAxis.minValue = data.getColumnRange(range).min;
+               options.vAxis.maxValue = data.getColumnRange(range).max;
+
+               // update the chart
+               chart.draw(view, options);
+            });
+         });
+      }
+   </script>
+
+  </body>
+</html>
+
