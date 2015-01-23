@@ -1,3 +1,7 @@
+/*Seeed OLED Library was placed before the real code, due to the lack of inclusion with the cloud compiler.
+Go to the bottom to find the real code
+*/
+
 
 /*
  * SeeedOLED.h
@@ -497,7 +501,7 @@ void SeeedOLED::setInverseDisplay()
 }
 
 
-SeeedOLED SeeedOled;  // Preinstantiate Objects
+SeeedOLED SeeedOled; 
 
 
 float newTemp;
@@ -508,25 +512,25 @@ char* charVal = (char*)malloc(5*sizeof(char));//could have char[5]
 void setup()
 {
   Wire.begin();
-  SeeedOled.init();  //initialze SEEED OLED display
+  SeeedOled.init(); 
   DDRB|=0x21;        
   PORTB |= 0x21;
 
-  SeeedOled.clearDisplay();           //clear the screen and set start position to top left corner
-  SeeedOled.setNormalDisplay();      //Set display to normal mode (i.e non-inverse mode)
-  SeeedOled.setPageMode();           //Set addressing mode to Page Mode
-  SeeedOled.setTextXY(0,0);          //Set the cursor to Xth Page, Yth Column  
+  SeeedOled.clearDisplay();         
+  SeeedOled.setNormalDisplay();//not inversed    
+  SeeedOled.setPageMode();         
+  SeeedOled.setTextXY(0,0);//oled XY paging          
   pinMode(LED_PIN, OUTPUT);
   digitalWrite(LED_PIN, LOW);
-    Serial.begin(57600);
-  //SeeedOled.putString("Hello World!"); //Print the String
+  Serial.begin(57600); //BLE virtual serial
+
 
 }
 
- union u_temp {
-     byte wire[4];
-     float temp;
-   } temperature;
+union u_temp {
+   byte wire[4];
+   float temp;
+} temperature;
 
 float t =0;
 char incomingBuffer[10];
@@ -535,53 +539,51 @@ int recieved = 0;
 void loop()
 {
  temperature.temp = Bean.getTemperature();//get temp
- temperature.temp = temperature.temp * 1.8 + 32; //convert it, keep integer
+ temperature.temp = temperature.temp * 1.8 + 32; //convert it C->F, keep integer
   dtostrf(newTemp, 5, 1, charVal);
-    charVal[4]='\0';
-    //SeeedOled.clearDisplay();          //clear the screen and set start position to top left corner
-  SeeedOled.setNormalDisplay();      //Set display to normal mode (i.e non-inverse mode)
-  SeeedOled.setPageMode();           //Set addressing mode to Page Mode
+  charVal[4]='\0'; //need a null terminator
+  SeeedOled.setNormalDisplay();    
+  SeeedOled.setPageMode();          
   
+  //ambient
   SeeedOled.setTextXY(0,0);
-   SeeedOled.putString("Amb. Temp: ");
+  SeeedOled.putString("Amb. Temp: ");
   SeeedOled.setTextXY(0,10); 
   SeeedOled.putFloat(temperature.temp);
  
-   SeeedOled.setTextXY(2,0); 
+  //pipe temp
+  SeeedOled.setTextXY(2,0); 
   SeeedOled.putString("Pipe Temp: "); 
   SeeedOled.setTextXY(2,10); 
   SeeedOled.putFloat(atof(incomingBuffer));
 
- 
+ //battery info
   SeeedOled.setTextXY(4, 0); 
   SeeedOled.putString("Bat % Rem: "); 
   battery = Bean.getBatteryLevel();
   SeeedOled.setTextXY(4, 10); 
   SeeedOled.putNumber(battery);
-
-
-   
-  Wire.beginTransmission(9); // transmit to device #9
+  
+  //transmit temp to teensy
+  Wire.beginTransmission(9);
   for(int i =0; i < 4; i++){
-    Wire.write(temperature.wire[i]);              // sends x 
+    Wire.write(temperature.wire[i]);            
   }
   
-   
-    Wire.requestFrom(9, 10);    // request 6 bytes from slave device #2
+  //request teensy pipe temp
+  Wire.requestFrom(9, 10); //response is less than 10 bytes, temp string  
 
-  while(Wire.available())    // slave may send less than requested
+  while(Wire.available())//read the response 
   { 
-    
-    char c = Wire.read(); // receive a byte as character
-   
-    incomingBuffer[recieved] = c;
+    char bytec = Wire.read(); 
+    incomingBuffer[recieved] = bytec;
     recieved++;
-    if(recieved > 9) break;
+    if(recieved > 9) break;//dont overfill the buffer
   }
-  recieved = 0;
-    Serial.println(incomingBuffer);         // print the character
- Wire.endTransmission();    // stop transmitting
-    delay(500);
+  recieved = 0;//reset
+  Serial.println(incomingBuffer);//debug       
+  Wire.endTransmission();  
+  delay(500);//dont go to fast to avoid 'bricking' the bean
 }
 
 
