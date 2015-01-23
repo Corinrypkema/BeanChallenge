@@ -5,7 +5,7 @@ Documentation and hosting for The Bean Challenge from Punch Through Design!
 
 Current Status
 ----------------
-Finished!  Visit Corin.rypkema.org/solar to view the project!
+Finished!  Visit http://corin.rypkema.org/solar to view the project!
 
 Overview
 ![alt tag](https://raw.githubusercontent.com/Corinrypkema/BeanChallenge/master/images/IMG_1653.JPG)
@@ -19,11 +19,12 @@ Full view
 Videos
 -------
 
-System
+System:
 
 www.youtube.com/embed/l_iZbIHp-r4
 
-Overview
+Overview:
+
 www.youtube.com/embed/R4uzGevmNnw
 
 Ideas
