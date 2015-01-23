@@ -5,8 +5,16 @@ Documentation and hosting for The Bean Challenge from Punch Through Design!
 
 Current Status
 ----------------
-Simple interface is up and running
-![alt tag](https://raw.githubusercontent.com/Corinrypkema/BeanChallenge/master/images/dashboard.png)
+Finished!
+
+Overview
+![alt tag](https://raw.githubusercontent.com/Corinrypkema/BeanChallenge/master/images/IMG_1653.JPG)
+The sensor in the pipe monitoring hole
+![alt tag](https://raw.githubusercontent.com/Corinrypkema/BeanChallenge/master/images/IMG_1654.JPG)
+Another view of the hot water port
+![alt tag](https://raw.githubusercontent.com/Corinrypkema/BeanChallenge/master/images/IMG_1672.JPG)
+Full view
+![alt tag](https://raw.githubusercontent.com/Corinrypkema/BeanChallenge/master/images/IMG_1668.JPG)
 
 
 Ideas
@@ -40,4 +48,7 @@ Old Stati
 
 The Bean's internal temp is now displayed on the i2c OLED board. Its reallllllllly cold outside!
 ![alt tag](https://raw.githubusercontent.com/Corinrypkema/BeanChallenge/master/images/IMG_1591.JPG)
+
+Simple interface is up and running
+![alt tag](https://raw.githubusercontent.com/Corinrypkema/BeanChallenge/master/images/dashboard.png)
 
